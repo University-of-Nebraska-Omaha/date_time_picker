@@ -584,14 +584,15 @@ class _DateTimePickerState extends FormFieldState<String> {
       } else {
         final llTime = lsValue.split(':');
         _tTime =
-            TimeOfDay(hour: int.parse(llTime[0]), minute: int.parse(llTime[1]));
+            TimeOfDay(hour: int.parse(llTime[0]),
+                minute: int.parse(llTime[1].split(' ')[0]));
         _sTime = lsValue;
 
         if (!widget.use24HourFormat) {
           _sPeriod = _tTime.period.index == 0 ? ' AM' : ' PM';
         }
 
-        _timeLabelController.text = _sTime + _sPeriod;
+        _timeLabelController.text = _sTime;
       }
     }
   }
@@ -663,9 +664,10 @@ class _DateTimePickerState extends FormFieldState<String> {
         } else {
           final llTime = lsValue.split(':');
           _tTime = TimeOfDay(
-              hour: int.parse(llTime[0]), minute: int.parse(llTime[1]));
+              hour: int.parse(llTime[0]),
+              minute: int.parse(llTime[1].split(' ')[0]));
           _sTime = lsValue;
-          _timeLabelController.text = _sTime + _sPeriod;
+          _timeLabelController.text = _sTime;
         }
       }
     } else {
@@ -763,8 +765,8 @@ class _DateTimePickerState extends FormFieldState<String> {
     final lsHour = DateFormat("hh", widget.locale.toString()).format(ldTime);
     final lsMinute = DateFormat("mm", widget.locale.toString()).format(ldTime);
 
-    _sTime = '$lsHour:$lsMinute';
     _sPeriod = ptTimePicked.period.index == 0 ? ' AM' : ' PM';
+    _sTime = '$lsHour:$lsMinute$_sPeriod';
   }
 
   Future<void> _showTimePickerDialog() async {
